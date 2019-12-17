@@ -1,0 +1,11 @@
+Header header
+uint32 pose_seq
+time pose_stamp
+time delta_stamp
+float64 cx
+float64 cy
+float64 cz
+float64 dx
+float64 dy
+float64 dz
+float64 dst
