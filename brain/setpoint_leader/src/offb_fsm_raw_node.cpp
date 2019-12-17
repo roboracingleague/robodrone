@@ -465,7 +465,7 @@ class onGoing : public onMission {
          };
         
         virtual void react(Pause2MissionEvent                const & e) override { 
-            //drone must land on its current position
+            //drone must land and disarm on its current position
             pauseActive = true;
             transit<onLand>();
          };
@@ -537,8 +537,15 @@ class onLoiter : public onMission {
         
         virtual void react(Pause2MissionEvent                const & e) override { 
             //drone must land on its current position
+            onMission::react(e);
             pauseActive = true;
             transit<onLand>();
+         };
+
+         virtual void react(PauseBackMissionEvent                const & e) override { 
+            onMission::react(e);
+            pauseActive = false;
+            transit<onGoing>();
          };
 
         void react(TickEvent const & e) override { 
