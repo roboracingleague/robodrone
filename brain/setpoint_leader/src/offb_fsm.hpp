@@ -163,8 +163,8 @@ class MissionRosInterface
             float new_refVelocity=1.0f;
             float new_dst_vel_treshold=1.0f;
             bool new_dry_run=false;
-            char * new_mission_recorded_filename="";
-            char * new_mission_script="";
+            string new_mission_recorded_filename="";
+            string new_mission_script="";
             if ((nh.getParam("dst_thresh", new_dst_thresh)) && (new_dst_thresh != dst_thresh))
             {
                 dst_thresh = new_dst_thresh;
@@ -188,12 +188,12 @@ class MissionRosInterface
             if ((nh.getParam("mission_recorded_filename", new_mission_recorded_filename)) && (new_mission_recorded_filename != mission_recorded_filename))
             {
                 mission_recorded_filename = new_mission_recorded_filename;
-                ROS_INFO("updateParam : new mission_recorded_filename set to %s",mission_recorded_filename);
+                ROS_INFO("updateParam : new mission_recorded_filename set to %s",mission_recorded_filename.c_str());
             }
             if ((nh.getParam("mission_script", new_mission_script)) && (new_mission_script != mission_script))
             {
                 mission_script = new_mission_script;
-                ROS_INFO("updateParam : new mission_script set to %s",mission_script);
+                ROS_INFO("updateParam : new mission_script set to %s",mission_script.c_str());
             }
         }
 
@@ -271,7 +271,7 @@ class MissionRosInterface
         void recordCurrentPosition(void);
         void saveRecordedMission(string filename);
         void clearRecordedMission(void);
-        int loadMissionRecorded(void);
+        int loadMissionRecorded(int lap_nb=1);
 
         ros::ServiceClient arming_client;
         ros::ServiceClient set_mode_client;
@@ -299,8 +299,8 @@ class MissionRosInterface
         float dst_vel_treshold = 0.5f;
         float landing_velocity=-0.5f;
         float refVelocity=2.0f;
-        char * mission_recorded_filename="";
-        char * mission_script="";
+        string mission_recorded_filename="";
+        string mission_script="";
 
         geometry_msgs::PoseStamped current_pose;
         geometry_msgs::TwistStamped current_velocity;

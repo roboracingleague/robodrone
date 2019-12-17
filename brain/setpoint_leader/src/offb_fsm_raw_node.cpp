@@ -227,7 +227,7 @@ private:
         void react (ExecuteMissionRecordedEvent const & e) override {
             //execute system command to load mission recorded in mission topic
             MissionStateMachine::react(e);
-            if (mri->loadMissionRecorded()) {
+            if (mri->loadMissionRecorded(lap_numbers)) {
                 ROS_INFO("loadMissionRecorded() error");
             }
         };
@@ -1364,8 +1364,9 @@ void MissionRosInterface::clearRecordedMission (void) {
     recorded_mission.path.clear();
 }
 
-int MissionRosInterface::loadMissionRecorded (void) {
-    return system(mission_script + " " + mission_recorded_filename)
+int MissionRosInterface::loadMissionRecorded (int lap_nb) {
+    string cmd = mission_script + " " + mission_recorded_filename + " " + to_string(lap_nb);
+    return system(cmd.c_str());
 }
 
 
