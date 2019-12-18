@@ -20,7 +20,7 @@ fi
 
 fichier=./tmp.mission
 
-if [ nb_lap -le 1 ]
+if [ $nb_lap -le 1 ]
 then
     echo -e "" > $fichier
     cat $filename >> $fichier
@@ -36,7 +36,7 @@ else
     while [ $i -lt $nb_lap ]
     do
         head -$(($last_frame_nb-1)) $filename | tail -$(($last_frame_nb-$nb_line_head-1)) >> $fichier
-        i=$i+1
+        i=$(($i+1))
     done
     tail -$(($nb_line-$last_frame_nb+1)) $filename >> $fichier
 

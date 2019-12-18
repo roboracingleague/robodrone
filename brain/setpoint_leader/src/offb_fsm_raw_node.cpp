@@ -227,7 +227,8 @@ private:
         void react (ExecuteMissionRecordedEvent const & e) override {
             //execute system command to load mission recorded in mission topic
             MissionStateMachine::react(e);
-            if (mri->loadMissionRecorded(lap_numbers)) {
+            //if (mri->loadMissionRecorded(lap_numbers)) {
+            if (mri->loadMissionRecorded(1)) {
                 ROS_INFO("loadMissionRecorded() error");
             }
         };
@@ -537,13 +538,11 @@ class onLoiter : public onMission {
         
         virtual void react(Pause2MissionEvent                const & e) override { 
             //drone must land on its current position
-            onMission::react(e);
             pauseActive = true;
             transit<onLand>();
          };
 
          virtual void react(PauseBackMissionEvent                const & e) override { 
-            onMission::react(e);
             pauseActive = false;
             transit<onGoing>();
          };

@@ -17,6 +17,6 @@ sleep 5
 nohup rosrun setpoint_leader offb_fsm_raw_node 1>$LOG_DIR/setpoint_leader.log 2>&1 &
 
 #set ros params
-rosparam set lap_numbers 3
+rosparam set lap_numbers 1
 rosparam set mission_recorded_filename $HOME/mission_recorded/mission-recorded.mission
-rosparam set mission_script $HOME/meaoodrone/robodrone/brain/scripts/mission.sh
+rosparam set mission_script $HOME/brain/scripts/mission.sh
