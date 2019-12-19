@@ -2,6 +2,7 @@
 
 ## 1.0 Prerequisites :
 Install mavros
+Install librealsense and realsense-ros
 
 ## 1.1 Get source :
 
@@ -33,13 +34,23 @@ source ./devel/setup.bash
 ## 4 Start 
 
 Launch mavros master
+- through PX4 IP
 ```sh
-roslaunch mavros px4.launch fcu_url:="udp://:14540@[PX4_IPorDEVICE]:14557" gcs_url:="udp://@[GCS_IP]"
+roslaunch mavros px4.launch fcu_url:="udp://:14540@[PX4_IP]:14557" gcs_url:="udp://@[GCS_IP]"
+```
+or through hardware interface connected to PX4 (ex here with USB on jetson nano)
+```sh
+roslaunch mavros px4.launch fcu_url:="/dev/ttyACM0:921600" gcs_url:="udp://@[GCS_IP]"
 ```
 
 Launch brain
 ```sh
 rosrun setpoint_leader offb_fsm_raw_node
+```
+
+Launch t265 camera
+```sh
+roslaunch realsense2_camera rs_t265.launch
 ```
 
 
@@ -155,3 +166,7 @@ rosparam set dst_thresh 0.2
 rostopic echo robocar/debug
 ```
 
+## 20 Wifi on Jetson Nano in Headless Mode
+```sh
+sudo nmcli dev wifi connect (NETWORK) password (PASSWORD) ifname wlan0
+```

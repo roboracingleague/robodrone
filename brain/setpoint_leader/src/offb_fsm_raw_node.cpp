@@ -811,6 +811,13 @@ void MissionRosInterface::startOffBoardMode (void) {
     ROS_INFO("OFFBOARD request sent (%d)", res);
 }
 
+void MissionRosInterface::stopOffBoardMode (void) {
+    offb_set_mode.request.custom_mode = "MANUAL";
+    ROS_INFO("MAVROS: Request MANUAL mode");
+    int res = mri->set_mode_client.call(offb_set_mode);
+    ROS_INFO("MANUAL mode request sent (%d)", res);
+}
+
 void MissionRosInterface::startManualMode (void) {
     offb_set_mode.request.custom_mode = "";
     offb_set_mode.request.base_mode = mavros_msgs::SetModeRequest::MAV_MODE_MANUAL_DISARMED;
@@ -1371,7 +1378,7 @@ void MissionRosInterface::clearRecordedMission (void) {
 }
 
 int MissionRosInterface::loadMissionRecorded (int lap_nb) {
-    string cmd = mission_script + " " + mission_recorded_filename + " " + to_string(lap_nb);
+    string cmd = mission_script + " " + mission_recorded_filename + " " + to_string(lap_nb) + "&";
     return system(cmd.c_str());
 }
 

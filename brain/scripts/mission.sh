@@ -12,6 +12,7 @@ then
     exit 1
 fi
 
+#
 nb_lap=1
 if [ $# -gt 1 ]
 then
@@ -25,9 +26,10 @@ then
     echo -e "" > $fichier
     cat $filename >> $fichier
 else
-    #TODO
+    #TOTEST
+    #if nb > 1, loop and repeat path (except last frame) nb_lap times
     nb_line_head=$(grep -n "path:" $filename  | awk -F":" '{print $1}')
-    last_frame_nb=$(grep -n "frame:" $filename  | awk -F":" '{print $1}' | tail -1)
+    last_frame_num=$(grep -n "frame:" $filename  | awk -F":" '{print $1}' | tail -1)
     nb_line=$(wc -l $filename | awk '{print $1}')
 
     echo -e "" > $fichier
@@ -35,10 +37,11 @@ else
     i=0
     while [ $i -lt $nb_lap ]
     do
-        head -$(($last_frame_nb-1)) $filename | tail -$(($last_frame_nb-$nb_line_head-1)) >> $fichier
+        head -$(($last_frame_num-1)) $filename | tail -$(($last_frame_num-$nb_line_head-1)) >> $fichier
         i=$(($i+1))
     done
-    tail -$(($nb_line-$last_frame_nb+1)) $filename >> $fichier
+    tail -$(($nb_line-$last_frame_num+1)) $filename >> $fichier
 
 fi
-rostopic pub /robocar/mission setpoint_leader/robocars_mission "$(<$fichier)"
+rostopic pub /robocar/mission setpoint_leader/robocars_mission "$(<$fichier)" &
+exit 0

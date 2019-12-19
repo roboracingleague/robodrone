@@ -11,10 +11,12 @@ then
     mkdir $MISSION_RECORDED_DIR
 fi
 
-nohup roslaunch mavros px4.launch fcu_url:="udp://:14540@127.0.0.1:14557" gcs_url:="udp://@127.0.0.1" 1>$LOG_DIR/rosmaster.log 2>&1 &
+export GCSIP=$(arp | grep 00:50:b6:a1:76:a8 | awk '{print $1}')
+
+stdbuf -oL roslaunch mavros px4.launch fcu_url:="/dev/ttyACM0:921600" gcs_url:="udp://@$GCSIP" >$LOG_DIR/rosmaster.log 2>&1 &
 sleep 5
-#nohup roslaunch realsense2_camera rs_t265.launch 1>$LOG_DIR/ts_t265.log 2>&1 &
-nohup rosrun setpoint_leader offb_fsm_raw_node 1>$LOG_DIR/setpoint_leader.log 2>&1 &
+stdbuf -oL roslaunch realsense2_camera rs_t265.launch >$LOG_DIR/ts_t265.log 2>&1 &
+stdbuf -oL rosrun setpoint_leader offb_fsm_raw_node >$LOG_DIR/setpoint_leader.log 2>&1 &
 
 #set ros params
 rosparam set lap_numbers 1

@@ -235,6 +235,7 @@ class MissionRosInterface
         void velocity_cb(const geometry_msgs::TwistStamped::ConstPtr& velocity_msg);
         void vfr_hud_cb (const mavros_msgs::VFR_HUD::ConstPtr& vfr_hud_msg);
         void startOffBoardMode (void);
+        void stopOffBoardMode(void);
         void startManualMode (void);
         void armVehicule (void);
         void checkOffBoardResponse (void);
