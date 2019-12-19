@@ -46,6 +46,7 @@ MissionRosInterface * mri;
 float MissionStateMachine::destX=0.0f;
 float MissionStateMachine::destY=0.0f;
 float MissionStateMachine::destZ=0.0f;
+float MissionStateMachine::destMode=0.0f;
 
 int LandedVehicleCount = 0;
 
@@ -67,6 +68,7 @@ class onReachDeparture;
 class onGoing;
 class onLand;
 class onLoiter;
+class onFreestyle;
 
 class onWaitConnect
 : public MissionStateMachine
@@ -212,7 +214,7 @@ private:
 
         void react (NewMissionEvent const & e) override {
             MissionStateMachine::react(e);
-            mri->getNextWaypoint(destX, destY, destZ);
+            mri->getNextWaypoint(destX, destY, destZ, destMode);
             transit<onSwitchOffBoard>();
         };
 
@@ -477,10 +479,15 @@ class onGoing : public onMission {
                 // Waypoint on going 
                 mri->sendMissionOrderVelocity(MASK_POSITION,destX, destY, destZ);
             } else {
+                float prev_destMode = destMode;
                 // We have not reached our next stop, let's pop the next WayPoint and send it right now ot autopilot
-                if (mri->getNextWaypoint(destX, destY, destZ)) {
+                if (mri->getNextWaypoint(destX, destY, destZ, destMode)) {
                     // New waypoint
-                    mri->sendMissionOrderVelocity(MASK_POSITION,destX, destY, destZ);
+                    if (prev_destMode == 1.0) {
+                        transit<onFreestyle>();
+                    } else {
+                        mri->sendMissionOrderVelocity(MASK_POSITION,destX, destY, destZ);
+                    }
                 } else {
                     // End of mission  
                     ROS_INFO("state %s : no new WayPoint",getStateName());
@@ -488,6 +495,21 @@ class onGoing : public onMission {
                 }
             }
         };
+};
+
+class onFreestyle : public onMission {
+    public:
+        onFreestyle() : onMission("onFreestyle") {};
+
+    private:
+
+        void entry() override {
+            //Front flip by default
+            onMission::entry();
+            mri->doFrontflip();
+            transit<onGoing>();
+        };
+
 };
 
 class onLoiter : public onMission {
@@ -1067,6 +1089,40 @@ void MissionRosInterface::sendMissionOrderVelocity(TypeMasks action, float destX
     pos_seq++;
 }
 
+void MissionRosInterface::doFrontflip(void) {
+    float curX = current_pose.pose.position.x;
+    float curY = current_pose.pose.position.y;
+    float curZ = current_pose.pose.position.z;
+
+    while (current_pose.pose.position.z < curZ + 0.2f) {
+
+        ROS_INFO("curZ:%f; current_pose.pose.position.z:%f", curZ, current_pose.pose.position.z);
+        mavros_msgs::PositionTarget rawMsg;
+        rawMsg.header.stamp = ros::Time::now();
+        rawMsg.header.seq=pos_seq;
+        rawMsg.header.frame_id = "enu_world";
+        float Ax, Ay, Az;
+
+        rawMsg.type_mask = mavros_msgs::PositionTarget::IGNORE_PX | 
+                        mavros_msgs::PositionTarget::IGNORE_PY |
+                        mavros_msgs::PositionTarget::IGNORE_PZ |
+                        mavros_msgs::PositionTarget::IGNORE_VX | 
+                        mavros_msgs::PositionTarget::IGNORE_VY |
+                        mavros_msgs::PositionTarget::IGNORE_VZ ;
+                        //mavros_msgs::PositionTarget::IGNORE_YAW |
+                //mavros_msgs::PositionTarget::IGNORE_YAW_RATE;
+
+        rawMsg.coordinate_frame = mavros_msgs::PositionTarget::FRAME_LOCAL_NED;
+
+        rawMsg.acceleration_or_force.x=0;
+        rawMsg.acceleration_or_force.y=0;
+        rawMsg.acceleration_or_force.z=2;
+        local_raw_pub.publish(rawMsg);
+
+        pos_seq++;
+    }
+}
+
 void MissionRosInterface::sendMissionOrder(TypeMasks action, float destX, float destY, float destZ) {
 
     mavros_msgs::PositionTarget rawMsg;
@@ -1273,7 +1329,7 @@ int MissionRosInterface::isDepartureReached() {
     return ret;
 }
 
-int MissionRosInterface::getNextWaypoint (float & destX, float & destY, float & destZ) {
+int MissionRosInterface::getNextWaypoint (float & destX, float & destY, float & destZ, float & destMode) {
 
   if (waypoints.size()>0){
       mavros_msgs::Waypoint wp = waypoints.front();
@@ -1281,9 +1337,10 @@ int MissionRosInterface::getNextWaypoint (float & destX, float & destY, float & 
       destX = wp.x_lat;
       destY = wp.y_long;
       destZ = wp.z_alt;
+      destMode = wp.param1;
 
       waypoints.erase(waypoints.begin());
-      ROS_INFO("getNextWaypoint : next waypoint is x=%f y=%f z=%f",destX, destY, destZ);
+      ROS_INFO("getNextWaypoint : next waypoint is x=%f y=%f z=%f, mode=%f",destX, destY, destZ, destMode);
       ROS_INFO("getNextWaypoint : %ld waypoints remaining",waypoints.size());
       return 1;
   }    

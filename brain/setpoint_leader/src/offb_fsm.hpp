@@ -64,6 +64,7 @@ class MissionStateMachine
         static float destX;
         static float destY;
         static float destZ;
+        static float destMode;
 
     public:
         /* default reaction for unhandled events */
@@ -254,11 +255,12 @@ class MissionRosInterface
         void sendLandPosition(float destX=0.0f, float destY=0.0f, float destZ=0.0f);
         void sendMissionOrder(TypeMasks action=MASK_IDLE_POSITION, float destX=0.0f, float destY=0.0f, float destZ=0.0f);
         void sendMissionOrderVelocity(TypeMasks action=MASK_IDLE_POSITION, float destX=0.0f, float destY=0.0f, float dst_treshold=0.5f, bool landingMode=false);
+        void doFrontflip(void);
 
         void sendVelocityOrder(float vX=0.0f, float vY=0.0f, float vZ=0.0f);
 
         void sendDebug (float destX, float destY, float destZ, float dst);
-        int getNextWaypoint (float &destX, float &destY, float &destZ);
+        int getNextWaypoint (float &destX, float &destY, float &destZ, float &destMode);
         void printCurrentPosition();
         void getCurrentPosition(float &destX, float &destY, float &destZ);
         double getCurrentYaw();
