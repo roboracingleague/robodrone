@@ -7,6 +7,7 @@
 #include "std_msgs/String.h"
 #include <mavros_msgs/WaypointList.h>
 #include <mavros_msgs/PositionTarget.h>
+#include <mavros_msgs/AttitudeTarget.h>
 #include <mavros_msgs/CommandBool.h>
 #include <mavros_msgs/SetMode.h>
 #include <mavros_msgs/State.h>
@@ -149,6 +150,7 @@ class MissionRosInterface
             // fera les conversion ENU - NED et publiera sur /mavros/setpoint_raw/target_local
             // qui sera envoyée sur mavlink au format set_position_target_local_ned
             local_raw_pub = nh.advertise<mavros_msgs::PositionTarget>("mavros/setpoint_raw/local", 10);
+            attitude_raw_pub = nh.advertise<mavros_msgs::AttitudeTarget>("mavros/setpoint_raw/attitude", 10);
             robocars_attitude_pub = nh.advertise<setpoint_leader::robocars_attitude>("/robocar/attitude", 10);
             robocars_at_pickup_pub = nh.advertise<setpoint_leader::robocars_vehicle_status>("/robocar/at_pickup", 10);
             robocars_at_dest_pub = nh.advertise<setpoint_leader::robocars_vehicle_status>("/robocar/at_dest", 10);
@@ -263,6 +265,7 @@ class MissionRosInterface
         int getNextWaypoint (float &destX, float &destY, float &destZ, float &destMode);
         void printCurrentPosition();
         void getCurrentPosition(float &destX, float &destY, float &destZ);
+        EulerAngles getCurrentEulerAngles(void);
         double getCurrentYaw();
         float getDestinationdistance(float ros_px, float ros_py, float ros_pz, float X, float Y, float z);
         int isDestinationReached (float destX, float destY, float destZ, float X, float Y, float z);
@@ -275,10 +278,12 @@ class MissionRosInterface
         void saveRecordedMission(string filename);
         void clearRecordedMission(void);
         int loadMissionRecorded(int lap_nb=1);
+        void accZ(float z);
 
         ros::ServiceClient arming_client;
         ros::ServiceClient set_mode_client;
         ros::Publisher local_raw_pub;
+        ros::Publisher attitude_raw_pub;
         ros::Publisher robocars_attitude_pub;
         ros::Publisher robocars_at_pickup_pub;
         ros::Publisher robocars_at_dest_pub;

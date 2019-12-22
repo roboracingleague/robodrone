@@ -8,7 +8,7 @@ departure:
   param3: 0.0
   param4: 0.0
   x_lat: 0.5 
-  y_long: 4.0 
+  y_long: 2.0 
   z_alt: 1.0
 arrival:
   frame: 4
@@ -32,7 +32,7 @@ path:
   param3: 0.0
   param4: 0.0
   x_lat: 0.5 
-  y_long: 4.0 
+  y_long: 2.0 
   z_alt: 1.0
 - frame: 4
   command: 16
@@ -42,8 +42,8 @@ path:
   param2: 0.0
   param3: 0.0
   param4: 0.0
-  x_lat: 1.0 
-  y_long: 1.0 
+  x_lat: 0.5 
+  y_long: 2.0 
   z_alt: 1.0
 - frame: 4
   command: 16

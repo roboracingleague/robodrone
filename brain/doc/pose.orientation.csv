@@ -1,0 +1,25 @@
+position depart;0.00500656;0.059233;1.58751
+demi-tour;-0.0231341;0.0432232;-1.49491
+pitch avant 180;3.0706;0.0207438;-1.51962
+pitch avant 90;2.87312;1.50974;-1.82759
+pitch arriere 90;0.505935;-1.47526;1.12289
+roll droit 90;1.55904;0.0845376;1.74254
+roll gauche 90;-1.56772;-0.0347679;1.62865
+turn droit 90;-0.0117745;0.0599274;0.111101
+turn droit 90 pitch avant 90;-1.93403;1.50278;-1.81781
+turn droit 90 pitch arriere 90;0.475978;-1.51185;-0.352645
+turn droit 90 roll droit;1.5487;0.0782232;0.100745
+turn droit 90 roll gauche;-1.60374;0.00662716;0.10792
+turn droit 90 pitch avant 180;-3.10662;-0.0453492;-3.00952
+turn droit 90 roll droit 180;3.11888;-0.0457261;0.14379
+demi-tour pitch avant 90;-2.01593;1.46708;2.77144
+demi-tour pitch arriere 90;0.273703;-1.49624;-1.76118
+demi-tour roll droit 90;1.50169;0.00627367;-1.40137
+demi-tour roll gauche 90;-1.49255;0.00289155;-1.42768
+turn gauche 90 ;0.00105747;0.0227622;-3.07667
+turn gauche 90 pitch avant 90;2.71673;1.52849;-0.288606
+turn gauche 90 pitch arriere 90;0.815353;-1.44799;2.44774
+turn gauche 90 roll droit;1.63261;0.0133987;-2.9956
+turn gauche 90 roll gauche;-1.54377;-0.0568094;-3.08586
+turn gauche 90 pitch avant 180;3.09926;-0.0783028;0.18341
+turn gauche 90 roll droit 180;-3.10989;-0.0487048;-2.99157

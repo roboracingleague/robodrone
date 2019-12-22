@@ -1089,14 +1089,8 @@ void MissionRosInterface::sendMissionOrderVelocity(TypeMasks action, float destX
     pos_seq++;
 }
 
-void MissionRosInterface::doFrontflip(void) {
-    float curX = current_pose.pose.position.x;
-    float curY = current_pose.pose.position.y;
-    float curZ = current_pose.pose.position.z;
-
-    while (current_pose.pose.position.z < curZ + 0.2f) {
-
-        ROS_INFO("curZ:%f; current_pose.pose.position.z:%f", curZ, current_pose.pose.position.z);
+void MissionRosInterface::accZ(float z) {
+        //ROS_INFO("curZ:%f; current_pose.pose.position.z:%f", curZ, current_pose.pose.position.z);
         mavros_msgs::PositionTarget rawMsg;
         rawMsg.header.stamp = ros::Time::now();
         rawMsg.header.seq=pos_seq;
@@ -1116,11 +1110,71 @@ void MissionRosInterface::doFrontflip(void) {
 
         rawMsg.acceleration_or_force.x=0;
         rawMsg.acceleration_or_force.y=0;
-        rawMsg.acceleration_or_force.z=2;
+        rawMsg.acceleration_or_force.z=z;
         local_raw_pub.publish(rawMsg);
+        pos_seq++;
+}
+
+void MissionRosInterface::doFrontflip(void) {
+    float curX = current_pose.pose.position.x;
+    float curY = current_pose.pose.position.y;
+    float curZ = current_pose.pose.position.z;
+
+    //Accelerate verticaly
+    while (current_pose.pose.position.z < curZ + 0.5f) {
+        mri->accZ(20);
+        ros::spinOnce();
+    }
+
+    //pitch acceleration for front flipping
+    ROS_INFO("Pitching...");
+    bool pitch=true;
+    bool reverse=false;
+    while (pitch) {
+        EulerAngles curAngle = mri->getCurrentEulerAngles();
+        ROS_INFO("curAngle.pitch:%f; curAngle.roll:%f", curAngle.pitch, curAngle.roll);
+        if ( ! reverse ) {
+            if ( abs(curAngle.pitch) > M_PI*0.9f || abs(curAngle.roll) > M_PI*0.9f) {
+                reverse = true;
+            }
+        }
+        if ( reverse and (abs(curAngle.pitch) < M_PI*0.1 || abs(curAngle.roll) < M_PI*0.1)) {
+            pitch=false;
+        }
+        mavros_msgs::AttitudeTarget rawMsg;
+        rawMsg.header.stamp = ros::Time::now();
+        rawMsg.header.seq=pos_seq;
+        rawMsg.header.frame_id = "enu_world";
+
+        rawMsg.type_mask = mavros_msgs::AttitudeTarget::IGNORE_ATTITUDE ;
+                           //mavros_msgs::AttitudeTarget::IGNORE_THRUST ;
+
+        rawMsg.body_rate.x=0;
+        rawMsg.body_rate.y=20;
+        rawMsg.body_rate.z=0;
+        rawMsg.thrust=0.5;
+        attitude_raw_pub.publish(rawMsg);
 
         pos_seq++;
+        ros::spinOnce();
     }
+    mavros_msgs::AttitudeTarget rawMsg;
+        rawMsg.header.stamp = ros::Time::now();
+        rawMsg.header.seq=pos_seq;
+        rawMsg.header.frame_id = "enu_world";
+
+        rawMsg.type_mask = mavros_msgs::AttitudeTarget::IGNORE_ATTITUDE ;
+                           //mavros_msgs::AttitudeTarget::IGNORE_THRUST ;
+
+        rawMsg.body_rate.x=0;
+        rawMsg.body_rate.y=0;
+        rawMsg.body_rate.z=0;
+        rawMsg.thrust=0.5;
+        attitude_raw_pub.publish(rawMsg);
+
+        pos_seq++;
+        ros::spinOnce();
+
 }
 
 void MissionRosInterface::sendMissionOrder(TypeMasks action, float destX, float destY, float destZ) {
@@ -1209,15 +1263,19 @@ void MissionRosInterface::getCurrentPosition(float & destX, float & destY, float
     destZ = current_pose.pose.position.z;
 }
 
-double MissionRosInterface::getCurrentYaw() {
-
-    EulerAngles ea;
+MissionRosInterface::EulerAngles MissionRosInterface::getCurrentEulerAngles() {
     Quaternion qua;
     qua.x = current_pose.pose.orientation.x;
     qua.y = current_pose.pose.orientation.y;
     qua.z = current_pose.pose.orientation.z;
     qua.w = current_pose.pose.orientation.w;
-    ea = ToEulerAngles(qua);
+    return ToEulerAngles(qua);
+} 
+
+double MissionRosInterface::getCurrentYaw() {
+
+    EulerAngles ea;
+    ea = mri->getCurrentEulerAngles();
     return ea.yaw;
 }
 
