@@ -1,1 +1,0 @@
-../../../meaoodrone-start.sh

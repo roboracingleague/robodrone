@@ -19,7 +19,7 @@ then
     nb_lap=$2
 fi
 
-fichier=./tmp.mission
+fichier=/tmp/tmp.mission
 
 if [ $nb_lap -le 1 ]
 then

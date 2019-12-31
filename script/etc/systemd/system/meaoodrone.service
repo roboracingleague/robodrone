@@ -1,0 +1,12 @@
+[Unit]
+Description=meaoodrone script
+
+[Service]
+Type=forking
+User=dlinano
+Group=dlinano
+ExecStart=/home/dlinano/robodrone/script/meaoodrone-start.sh
+
+[Install]
+WantedBy=multi-user.target
+WantedBy=network-online.target
