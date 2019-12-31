@@ -7,8 +7,8 @@ departure:
   param2: 0.0
   param3: 0.0
   param4: 0.0
-  x_lat: 0.5 
-  y_long: 2.0 
+  x_lat: 0.0 
+  y_long: 0.0 
   z_alt: 1.0
 arrival:
   frame: 4
@@ -19,8 +19,8 @@ arrival:
   param2: 0.0
   param3: 0.0
   param4: 0.0
-  x_lat: 0.5 
-  y_long: 2.0 
+  x_lat: 0.0 
+  y_long: 0.0 
   z_alt: 1.0
 path:
 - frame: 4
@@ -31,19 +31,8 @@ path:
   param2: 0.0
   param3: 0.0
   param4: 0.0
-  x_lat: 0.5 
-  y_long: 2.0 
-  z_alt: 1.0
-- frame: 4
-  command: 16
-  is_current: true
-  autocontinue: true
-  param1: 1.0
-  param2: 0.0
-  param3: 0.0
-  param4: 0.0
-  x_lat: 0.5 
-  y_long: 2.0 
+  x_lat: 0.0 
+  y_long: 0.0 
   z_alt: 1.0
 - frame: 4
   command: 16
@@ -53,6 +42,39 @@ path:
   param2: 0.0
   param3: 0.0
   param4: 0.0
-  x_lat: 0.5 
-  y_long: 2.0 
+  x_lat: -1.0 
+  y_long: 0.0 
+  z_alt: 1.0
+- frame: 4
+  command: 16
+  is_current: true
+  autocontinue: true
+  param1: 1.0
+  param2: 0.0
+  param3: 0.0
+  param4: 0.0
+  x_lat: -2.0 
+  y_long: 0.0 
+  z_alt: 1.0
+- frame: 4
+  command: 16
+  is_current: true
+  autocontinue: true
+  param1: 0.0
+  param2: 0.0
+  param3: 0.0
+  param4: 0.0
+  x_lat: -5.0 
+  y_long: 0.0 
+  z_alt: 1.0
+- frame: 4
+  command: 16
+  is_current: true
+  autocontinue: true
+  param1: 0.0
+  param2: 0.0
+  param3: 0.0
+  param4: 0.0
+  x_lat: 0.0 
+  y_long: 0.0 
   z_alt: 1.0

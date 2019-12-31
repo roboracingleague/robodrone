@@ -50,6 +50,9 @@ float MissionStateMachine::destMode=0.0f;
 
 int LandedVehicleCount = 0;
 
+bool offBoardMode = true;
+string RCFlightMode = "MANUAL";
+
 bool pauseActive=false;
 float prevDestX=0;
 float prevDestY=0;
@@ -69,6 +72,7 @@ class onGoing;
 class onLand;
 class onLoiter;
 class onFreestyle;
+class onStopOffBoard;
 
 class onWaitConnect
 : public MissionStateMachine
@@ -102,6 +106,8 @@ class onWaitConnect
         void react(ArmedEvent const & e) override { 
         };
         void react(DisarmedEvent const & e) override { 
+        };
+        void react(SwitchModeEvent const & e) override { 
         };
         void react(NewMissionEvent const & e) override { 
             ROS_INFO("state %s : NewMissionEvent received in bad state",getStateName());
@@ -176,9 +182,11 @@ private:
         void entry(void) override {
             mri->clearMission();
             MissionStateMachine::entry();
-            destX=0;
-            destY=0;
-            destZ=0;
+            if (! pauseActive) {
+                destX=0;
+                destY=0;
+                destZ=0;
+            }
         };
 
         void react(DisarmedEvent const & e) override { 
@@ -214,13 +222,15 @@ private:
 
         void react (NewMissionEvent const & e) override {
             MissionStateMachine::react(e);
-            mri->getNextWaypoint(destX, destY, destZ, destMode);
-            transit<onSwitchOffBoard>();
+            if (offBoardMode) {
+                mri->getNextWaypoint(destX, destY, destZ, destMode);
+                transit<onSwitchOffBoard>();
+            }
         };
 
         void react (PauseBackMissionEvent const & e) override {
             MissionStateMachine::react(e);
-            if ( pauseActive ) {
+            if ( pauseActive && offBoardMode) {
                 pauseActive=false;
                 transit<onSwitchOffBoard>();
             }
@@ -229,12 +239,13 @@ private:
         void react (ExecuteMissionRecordedEvent const & e) override {
             //execute system command to load mission recorded in mission topic
             MissionStateMachine::react(e);
-            //if (mri->loadMissionRecorded(lap_numbers)) {
-            if (mri->loadMissionRecorded(1)) {
-                ROS_INFO("loadMissionRecorded() error");
+            if (offBoardMode) {
+                //if (mri->loadMissionRecorded(lap_numbers)) {
+                if (mri->loadMissionRecorded(1)) {
+                    ROS_INFO("loadMissionRecorded() error");
+                }
             }
         };
-
 
         void react(TickEvent const & e) override { 
             MissionStateMachine::react(e);
@@ -304,6 +315,12 @@ class onSwitchOffBoard
             transit<onArm>();            
         };
 
+        void react(SwitchModeEvent const & e) override { 
+            if (!offBoardMode) {
+                transit<onStopOffBoard>();            
+            }
+        };
+
         void react(LeavingOffboardEvent const & e) override { 
             // ignore
         }
@@ -322,6 +339,46 @@ class onSwitchOffBoard
             }
         };
 
+};
+
+class onStopOffBoard
+: public onStreamIdlePosition
+{
+    public:
+        onStopOffBoard() : onStreamIdlePosition("onStopOffBoard") {};
+
+    private:
+        ros::Time last_request;
+        string mode = "MANUAL";
+
+        void entry(void) override {
+            onStreamIdlePosition::entry();
+            mode = "MANUAL";
+            if (!offBoardMode) {
+                mode=RCFlightMode;
+            }
+            mri->stopOffBoardMode(mode);
+            last_request = ros::Time::now();
+        };
+
+        void react(LeavingOffboardEvent const & e) override {
+            onStreamIdlePosition::react(e);
+            transit<onWaitMission>();
+        }
+
+        void react(DisarmedEvent const & e) override { 
+            // just ignore
+        }
+
+        void react(TickEvent const & e) override { 
+            onStreamIdlePosition::react(e);
+
+            if(ros::Time::now() - last_request > ros::Duration(5.0))
+            {
+                mri->stopOffBoardMode(mode);
+                last_request = ros::Time::now();
+            }
+        };
 };
 
 class onArm
@@ -357,9 +414,15 @@ class onArm
             // ignore
         };
 
+        void react(SwitchModeEvent const & e) override { 
+            if (!offBoardMode) {
+                transit<onDisarm>();
+            }
+        };
+
         void react(LeavingOffboardEvent const & e) override { 
             MissionStateMachine::react(e);
-            transit<onWaitConnect>();
+            transit<onWaitMission>();
         };
 
         void react(TickEvent const & e) override { 
@@ -414,6 +477,13 @@ class onMission
         virtual void react (CancelMissionEvent            const & e) override {
             transit<onWaitMission>();
         };
+        virtual void react (SwitchModeEvent            const & e) override {
+            MissionStateMachine::react(e);
+            if (!offBoardMode) {
+                //switch to flight mode without landing nor disarming
+                transit<onStopOffBoard>();
+            }
+        };
         virtual void react (LocalPositionAcquiredEvent    const & e) override {
         }
         void react(TickEvent const & e) override { 
@@ -444,14 +514,14 @@ class onGoing : public onMission {
         };
         virtual void react(LeavingOffboardEvent           const & e) override { 
             onMission::react(e);
-            transit<onWaitConnect>();
+            transit<onWaitMission>();
         };
         virtual void react(ArmedEvent                     const & e) override { 
             // Just ignore
          };
         virtual void react(DisarmedEvent                  const & e) override { 
             onMission::react(e);
-            transit<onWaitConnect>();
+            transit<onWaitMission>();
          };
         virtual void react(NewMissionEvent                const & e) override { 
             onMission::react(e);
@@ -653,14 +723,14 @@ class onDisarm
             {
                 //dry run mode
                 ROS_INFO("dry_run active !");
-                transit<onWaitMission>();     
+                transit<onStopOffBoard>();     
             }
             
         };
 
         void react(DisarmedEvent const & e) override { 
             onMission::react(e);
-            transit<onWaitMission>();            
+            transit<onStopOffBoard>();            
         };
 
         void react(EnteringOffboardEvent const & e) override { 
@@ -669,7 +739,7 @@ class onDisarm
 
         void react(LeavingOffboardEvent const & e) override { 
             MissionStateMachine::react(e);
-            transit<onWaitConnect>();
+            transit<onWaitMission>();
         };
 
         void react(TickEvent const & e) override { 
@@ -736,6 +806,26 @@ void MissionRosInterface::rcin_cb(const mavros_msgs::RCIn::ConstPtr& rcin_msg){
                 send_event(Pause2MissionEvent());
             }
         } 
+        if ( current_rcin.channels[rcin_switchMode_channel-1] > 1300 ) {
+            if (offBoardMode) {
+                offBoardMode=false;
+            } else {
+                offBoardMode=true;
+            }
+            ROS_INFO("rcin_cb - switchMode (offboard/flightmode) detected - offBoardMode = %s", offBoardMode ? "true" : "false");
+            send_event(SwitchModeEvent());
+        }
+        if ( current_rcin.channels[rcin_flightMode_channel-1] < 1300 ) {
+            RCFlightMode="ALTCTL";
+        } 
+        else
+        {
+            if ( current_rcin.channels[rcin_flightMode_channel-1] < 1600 ) {
+                RCFlightMode="STABILIZED";
+            } else {
+                RCFlightMode="ACRO";
+            }
+        }
         return;
     }
     if ( current_rcin.channels[rcin_record_position_channel-1] != previous_rcin.channels[rcin_record_position_channel-1] ) {
@@ -760,7 +850,7 @@ void MissionRosInterface::rcin_cb(const mavros_msgs::RCIn::ConstPtr& rcin_msg){
     }
     if ( current_rcin.channels[rcin_pause_mission_channel-1] != previous_rcin.channels[rcin_pause_mission_channel-1] ) {
         // channel switch mode
-        ROS_INFO("rcin_cb - switch mode detected - value = %d", current_rcin.channels[rcin_pause_mission_channel-1]);
+        ROS_INFO("rcin_cb - switch pause_mission detected - value = %d", current_rcin.channels[rcin_pause_mission_channel-1]);
         if ( current_rcin.channels[rcin_pause_mission_channel-1] < 1300 ) {
             send_event(PauseBackMissionEvent());
         }
@@ -773,7 +863,31 @@ void MissionRosInterface::rcin_cb(const mavros_msgs::RCIn::ConstPtr& rcin_msg){
             }
         }
     }
-    
+    if ( current_rcin.channels[rcin_switchMode_channel-1] != previous_rcin.channels[rcin_switchMode_channel-1] ) {
+        // channel switch mode
+        if ( current_rcin.channels[rcin_switchMode_channel-1] > 1300 ) {
+            if (offBoardMode) {
+                offBoardMode=false;
+            } else {
+                offBoardMode=true;
+            }
+            ROS_INFO("rcin_cb - switchMode (offboard/flightmode) detected - offBoardMode = %s", offBoardMode ? "true" : "false");
+            send_event(SwitchModeEvent());
+        }
+    }
+    if ( current_rcin.channels[rcin_flightMode_channel-1] != previous_rcin.channels[rcin_flightMode_channel-1] ) {
+        if ( current_rcin.channels[rcin_flightMode_channel-1] < 1300 ) {
+            RCFlightMode="POSITION";
+        } 
+        else
+        {
+            if ( current_rcin.channels[rcin_flightMode_channel-1] < 1600 ) {
+                RCFlightMode="STABILIZED";
+            } else {
+                RCFlightMode="ACCRO";
+            }
+        }
+    }
 }
 
 void MissionRosInterface::pose_cb(const geometry_msgs::PoseStamped::ConstPtr& pose_msg){
@@ -833,11 +947,11 @@ void MissionRosInterface::startOffBoardMode (void) {
     ROS_INFO("OFFBOARD request sent (%d)", res);
 }
 
-void MissionRosInterface::stopOffBoardMode (void) {
-    offb_set_mode.request.custom_mode = "MANUAL";
-    ROS_INFO("MAVROS: Request MANUAL mode");
+void MissionRosInterface::stopOffBoardMode (string mode) {
+    offb_set_mode.request.custom_mode = mode;
+    ROS_INFO("MAVROS: Request %s mode", mode.c_str());
     int res = mri->set_mode_client.call(offb_set_mode);
-    ROS_INFO("MANUAL mode request sent (%d)", res);
+    ROS_INFO("%s mode request sent (%d)", mode.c_str(), res);
 }
 
 void MissionRosInterface::startManualMode (void) {
@@ -1121,8 +1235,8 @@ void MissionRosInterface::doFrontflip(void) {
     float curZ = current_pose.pose.position.z;
 
     //Accelerate verticaly
-    while (current_pose.pose.position.z < curZ + 0.5f) {
-        mri->accZ(20);
+    while (current_pose.pose.position.z < curZ + 0.3f) {
+        mri->accZ(40);
         ros::spinOnce();
     }
 
@@ -1130,12 +1244,14 @@ void MissionRosInterface::doFrontflip(void) {
     ROS_INFO("Pitching...");
     bool pitch=true;
     bool reverse=false;
+    float trust=1.0;
     while (pitch) {
         EulerAngles curAngle = mri->getCurrentEulerAngles();
         ROS_INFO("curAngle.pitch:%f; curAngle.roll:%f", curAngle.pitch, curAngle.roll);
         if ( ! reverse ) {
             if ( abs(curAngle.pitch) > M_PI*0.9f || abs(curAngle.roll) > M_PI*0.9f) {
                 reverse = true;
+                trust=0.1;
             }
         }
         if ( reverse and (abs(curAngle.pitch) < M_PI*0.1 || abs(curAngle.roll) < M_PI*0.1)) {
@@ -1150,9 +1266,9 @@ void MissionRosInterface::doFrontflip(void) {
                            //mavros_msgs::AttitudeTarget::IGNORE_THRUST ;
 
         rawMsg.body_rate.x=0;
-        rawMsg.body_rate.y=20;
+        rawMsg.body_rate.y=30;
         rawMsg.body_rate.z=0;
-        rawMsg.thrust=0.5;
+        rawMsg.thrust=trust;
         attitude_raw_pub.publish(rawMsg);
 
         pos_seq++;
@@ -1167,9 +1283,9 @@ void MissionRosInterface::doFrontflip(void) {
                            //mavros_msgs::AttitudeTarget::IGNORE_THRUST ;
 
         rawMsg.body_rate.x=0;
-        rawMsg.body_rate.y=0;
+        rawMsg.body_rate.y=1;
         rawMsg.body_rate.z=0;
-        rawMsg.thrust=0.5;
+        rawMsg.thrust=0.6;
         attitude_raw_pub.publish(rawMsg);
 
         pos_seq++;

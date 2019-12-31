@@ -170,3 +170,32 @@ rostopic echo robocar/debug
 ```sh
 sudo nmcli dev wifi connect (NETWORK) password (PASSWORD) ifname wlan0
 ```
+
+## 21 RC setup (taranis X9D-Plus)
+Arming : SE (channel 12)
+- disarmed
+- armed
+- armed and log activated (pose, velocity, local_raw_pub, attitude_raw_pub) 
+
+Flight mode : SA (channel 5)
+- Position
+- Stabilized
+- Accro
+
+Brain mode : SB (channel 10)
+- record mission
+- wait mission
+- execute last mission recorded
+
+Record waypoint : SF (channel 11)
+
+Emergency disarming : SD (channel 8)
+
+Record waypoint mode : SC (channel 6) - TODO
+- normal
+- freestyle 1
+- freestyle 2
+
+Switch offBoard/FlightMode : SH (channel 7)
+- in offboard mode, switch to manual mode : if done during a mission, the mission is paused
+- and vice versa (and mission resumes)

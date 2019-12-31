@@ -37,6 +37,7 @@ struct Pause1MissionEvent           : BaseEvent { public: Pause1MissionEvent() :
 struct PauseBackMissionEvent        : BaseEvent { public: PauseBackMissionEvent() : BaseEvent("PauseBackMissionEvent") {}; };
 struct Pause2MissionEvent           : BaseEvent { public: Pause2MissionEvent() : BaseEvent("Pause2MissionEvent") {}; };
 struct WaitMissionModeEvent         : BaseEvent { public: WaitMissionModeEvent() : BaseEvent("WaitMissionModeEvent") {}; };
+struct SwitchModeEvent              : BaseEvent { public: SwitchModeEvent() : BaseEvent("SwitchModeEvent") {}; };
 struct LeavingOffboardEvent         : BaseEvent { public: LeavingOffboardEvent() : BaseEvent("LeavingOffboardEvent") {}; };
 struct ArmedEvent                   : BaseEvent { public: ArmedEvent() : BaseEvent("ArmedEvent") {}; };
 struct DisarmedEvent                : BaseEvent { public: DisarmedEvent() : BaseEvent("DisarmedEvent") {}; };
@@ -82,6 +83,7 @@ class MissionStateMachine
         virtual void react(Pause1MissionEvent             const & e) { logEvent(e); };
         virtual void react(Pause2MissionEvent             const & e) { logEvent(e); };
         virtual void react(PauseBackMissionEvent          const & e) { logEvent(e); };
+        virtual void react(SwitchModeEvent                const & e) { logEvent(e); };
         virtual void react(WaitMissionModeEvent           const & e) { logEvent(e); };
         virtual void react(LeavingOffboardEvent           const & e) { logEvent(e); };
         virtual void react(ArmedEvent                     const & e) { logEvent(e); };
@@ -238,7 +240,7 @@ class MissionRosInterface
         void velocity_cb(const geometry_msgs::TwistStamped::ConstPtr& velocity_msg);
         void vfr_hud_cb (const mavros_msgs::VFR_HUD::ConstPtr& vfr_hud_msg);
         void startOffBoardMode (void);
-        void stopOffBoardMode(void);
+        void stopOffBoardMode(string mode="MANUAL");
         void startManualMode (void);
         void armVehicule (void);
         void checkOffBoardResponse (void);
@@ -299,6 +301,8 @@ class MissionRosInterface
         int rcin_mode_channel = 10;
         int rcin_record_position_channel = 11;
         int rcin_pause_mission_channel = 12;
+        int rcin_switchMode_channel = 7;
+        int rcin_flightMode_channel = 5;
         int rcin_seq;
         mavros_msgs::SetMode offb_set_mode;
         mavros_msgs::CommandBool arm_cmd;
