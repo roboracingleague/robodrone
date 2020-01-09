@@ -182,19 +182,22 @@ private:
         void entry(void) override {
             mri->clearMission();
             MissionStateMachine::entry();
+            ROS_INFO("state %s : pauseActive = %s",getStateName(), pauseActive ? "true" : "false");
             if (! pauseActive) {
                 destX=0;
                 destY=0;
                 destZ=0;
             }
+            ROS_INFO("state %s : destX:%f, destY:%f, destZ:%f",getStateName(), destX, destY, destZ);
         };
 
         void react(DisarmedEvent const & e) override { 
+            //nothing
         };
 
         void react(ArmedEvent const & e) override { 
-            MissionStateMachine::react(e);
-            transit<onDisarm>();
+            //MissionStateMachine::react(e);
+            //transit<onDisarm>();
         };
 
         void react(DisconnectedEvent const & e) override { 
@@ -614,7 +617,7 @@ class onLoiter : public onMission {
          };
         virtual void react(DisarmedEvent                  const & e) override { 
             onMission::react(e);
-            transit<onWaitConnect>();
+            transit<onWaitMission>();
          };
         virtual void react(NewMissionEvent                const & e) override { 
             onMission::react(e);
@@ -679,7 +682,7 @@ class onLand : public onMission {
         virtual void react(DisarmedEvent                  const & e) override { 
             if (!mri->dry_run ) {
                 onMission::react(e);
-                transit<onWaitConnect>();
+                transit<onWaitMission>();
             }
          };
         virtual void react(NewMissionEvent                const & e) override { 

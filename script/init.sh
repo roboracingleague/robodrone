@@ -27,7 +27,8 @@ source $HOME/catkin_ws2/devel/setup.bash
 
 #nmap -v -sn 192.168.1.0/27 >/dev/null
 #GCS_MacAdress="00:50:b6:a1:76:a8" #Mac
-GCS_MacAdress="54:b2:03:19:dd:79" #Linux
+GCS_MacAdress="78:4f:43:77:a5:b7" #Linux
+#GCS_MacAdress="54:b2:03:19:dd:79" #Linux
 
 export GCSIP=$(arp | grep $GCS_MacAdress | awk '{print $1}')
 

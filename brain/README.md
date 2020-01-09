@@ -199,3 +199,8 @@ Record waypoint mode : SC (channel 6) - TODO
 Switch offBoard/FlightMode : SH (channel 7)
 - in offboard mode, switch to manual mode : if done during a mission, the mission is paused
 - and vice versa (and mission resumes)
+
+Pause during mission : SG (channel 9)
+- pause back
+- pause 1 : loiter
+- pause 2 : land and disarm

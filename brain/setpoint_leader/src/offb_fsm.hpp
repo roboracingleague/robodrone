@@ -300,7 +300,7 @@ class MissionRosInterface
         mavros_msgs::RCIn current_rcin;
         int rcin_mode_channel = 10;
         int rcin_record_position_channel = 11;
-        int rcin_pause_mission_channel = 12;
+        int rcin_pause_mission_channel = 9;
         int rcin_switchMode_channel = 7;
         int rcin_flightMode_channel = 5;
         int rcin_seq;
@@ -310,7 +310,7 @@ class MissionRosInterface
         float dst_yaw_thresh=dst_thresh*1.5;
         float dst_vel_treshold = 0.5f;
         float landing_velocity=-0.5f;
-        float refVelocity=2.0f;
+        float refVelocity=1.0f;
         string mission_recorded_filename="";
         string mission_script="";
 
