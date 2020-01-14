@@ -5,7 +5,7 @@ Description=meaoodrone script
 Type=forking
 User=dlinano
 Group=dlinano
-ExecStart=/home/dlinano/robodrone/script/meaoodrone-start.sh
+ExecStart=/home/dlinano/robodrone/script/meaoodrone.sh
 
 [Install]
 WantedBy=multi-user.target

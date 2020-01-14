@@ -175,10 +175,10 @@ sudo nmcli dev wifi connect (NETWORK) password (PASSWORD) ifname wlan0
 Arming : SE (channel 12)
 - disarmed
 - armed
-- armed and log activated (pose, velocity, local_raw_pub, attitude_raw_pub) 
+- armed and log activated (pose, velocity, local_raw_pub, attitude_raw_pub) TODO
 
 Flight mode : SA (channel 5)
-- Position
+- Position (but often forced by px4 to altitude)
 - Stabilized
 - Accro
 
@@ -189,7 +189,7 @@ Brain mode : SB (channel 10)
 
 Record waypoint : SF (channel 11)
 
-Emergency disarming : SD (channel 8)
+Emergency kill : SD (channel 8) - to use as a last resort (drone will fall)
 
 Record waypoint mode : SC (channel 6) - TODO
 - normal
@@ -203,4 +203,4 @@ Switch offBoard/FlightMode : SH (channel 7)
 Pause during mission : SG (channel 9)
 - pause back
 - pause 1 : loiter
-- pause 2 : land and disarm
+- pause 2 : land and disarm - better option than emergency kill
