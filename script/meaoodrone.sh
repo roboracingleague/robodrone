@@ -40,8 +40,9 @@ while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symli
 done
 SCRIPT_DIR="$( cd -P "$( dirname "$SOURCE" )" >/dev/null 2>&1 && pwd )"
 
-action="start"
+action=""
 [[ "$1" == "stop" ]] && action="stop"
+[[ "$1" == "start" ]] && action="start"
 
 if [[ "$action" == "start" ]]
 then
@@ -64,11 +65,11 @@ then
 
         #start brain
         brain_start
-else
+fi
+if [[ "$action" == "stop" ]]
+then
         source $SCRIPT_DIR/init.sh
         t265_stop
         brain_stop
         rosmaster_stop
 fi
-
-exit 0

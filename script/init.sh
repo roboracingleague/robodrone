@@ -30,6 +30,7 @@ source /home/dlinano/.bashmeaoo
 export GCSIP=$(arp | grep $GCS_MacAdress | awk '{print $1}')
 
 alias rrun="roslaunch mavros px4.launch fcu_url:=\"/dev/ttyACM0:921600\" gcs_url:=\"udp://@$GCSIP\""
+#alias rrun="roslaunch mavros px4.launch fcu_url:=\"udp://:14540@127.0.0.1:14557" gcs_url:=\"udp://@$GCSIP\"" #case of using px4 docker image
 alias brun='rosrun setpoint_leader offb_fsm_raw_node'
 alias rl='rostopic list'
 function re() { rostopic echo $1; }
