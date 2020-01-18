@@ -180,10 +180,10 @@ public:
 private:
 
         void entry(void) override {
-            mri->clearMission();
             MissionStateMachine::entry();
             ROS_INFO("state %s : pauseActive = %s",getStateName(), pauseActive ? "true" : "false");
             if (! pauseActive) {
+                mri->clearMission();
                 destX=0;
                 destY=0;
                 destZ=0;
