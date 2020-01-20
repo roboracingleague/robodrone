@@ -108,7 +108,7 @@ Set your 12 first channel (first 4 for attitude control). See at end of Readme.m
 
 
 #### 1.2.6 Test your config
-<u>Without your propelers mounted</u>, connect your 4S battery to your drone and turn on your Taranis.  
+<span style="text-decoration: underline;"><b>Without your propelers mounted</b></span>, connect your 4S battery to your drone and turn on your Taranis.  
 Arm your drone (from taranis) and check that motors spin in the right way :  
 <img src="img/QuadRotorX.svg" width="200">  
 
