@@ -23,6 +23,9 @@ Motors XNova FS Line 2207 - x4 1700 KV : https://www.studiosport.fr/moteurs-xnov
 
 UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V 
 
+4S LIPO :   
+<a href="https://www.studiosport.fr/batterie-tattu-4s-75c-1550-bf-a14954.html"><img src="img/Tattu4SLIPO.jpg" width="200"></a>
+
 <img src="img/UBEC.jpg" width="200">
 
 Pixhawk 4 mini
@@ -56,18 +59,22 @@ NVIDIA Jetson nano
 #### 1.2.1 Motors and ESC
 Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counteclockrwise).  
 
+<img src="img/QuadRotorX.svg" width="200">  
+
 #### 1.2.2 Powerboard
 Mount powerboard delivered with Pixhawk 4 mini. Solder the wires  
 Connect powerboard to Pixhawk with connectors provided with Pixhawk
 
 
 #### 1.2.3 RC receptor
-Connect Frsky XM+ to Pixhawk (use connector privides with Pixhawk and sold with Frsky XM+)
+Connect Frsky XM+ to Pixhawk (use connector privides with Pixhawk and solder with Frsky XM+)
 
 #### 1.2.4 QGround Control settings
 Connect your computer to Pixhawk (via micro usb)  
 Download, install then open QGround Control on your computer  
 You should have now QGC connected to your Pixhawk  
+PX4 Firmware version used and tested : 1.10.0  
+
 ##### Vehicule setup
 Airframe : select 3DR DIY QUad  
 
@@ -97,3 +104,17 @@ Parameters :
 #### 1.2.5 Radio Controller settings
 Start and set your taranis so that it connects to your Frsky XM+. Tutorial : https://www.youtube.com/watch?v=ZOBwwNpjNrY  
 Set your 12 first channel (first 4 for attitude control). See at end of Readme.md in brain directory for some details
+
+
+#### 1.2.6 Test your config
+Without your propelers mounted, connect your 4S battery to your drone and turn on your Taranis
+Arm your drone (from taranis) and check that motors spin in the right way :  
+<img src="img/QuadRotorX.svg" width="200">  
+
+You can then test your drone with propelers but outdoor in safety environnement (with no obstacle 10m around and above) and in stabilized mode. Objective is to check that drone can takeoff (no more than 50cm !), yaw, pitch and roll.   
+Be ready anytime to disarm if something goes wrong !  
+
+If it's ok, you can move on to the next step : go to autonomous drone build.
+
+#### 1.2.7 Autonoumous drone build
+TODO
