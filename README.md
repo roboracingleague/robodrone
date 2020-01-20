@@ -58,7 +58,7 @@ NVIDIA Jetson nano
 
 ### 1.2 Assembly
 #### 1.2.1 Motors and ESC
-Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counteclockrwise).  
+Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counterclockwise).  
 
 <img src="img/QuadRotorX.svg" width="200">  
 
@@ -68,7 +68,7 @@ Connect powerboard to Pixhawk with connectors provided with Pixhawk
 
 
 #### 1.2.3 RC receptor
-Connect Frsky XM+ to Pixhawk (use connector privides with Pixhawk and solder with Frsky XM+)
+Connect Frsky XM+ to Pixhawk (use connector privided with Pixhawk and solder to Frsky XM+)
 
 #### 1.2.4 QGround Control settings
 Connect your computer to Pixhawk (via micro usb)  
@@ -108,7 +108,7 @@ Set your 12 first channel (first 4 for attitude control). See at end of Readme.m
 
 
 #### 1.2.6 Test your config
-Without your propelers mounted, connect your 4S battery to your drone and turn on your Taranis
+<u>Without your propelers mounted</u>, connect your 4S battery to your drone and turn on your Taranis.  
 Arm your drone (from taranis) and check that motors spin in the right way :  
 <img src="img/QuadRotorX.svg" width="200">  
 
