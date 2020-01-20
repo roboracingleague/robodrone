@@ -1,9 +1,8 @@
 # Robodrone
 
 ## Demo
-<video controls width="250">
-    <source src="img/Meaoodrone-demo.mov" type="video/mp4">
-</video>
+
+[![Alt text](https://img.youtube.com/vi/mwLET4B8C2s/0.jpg)](https://www.youtube.com/watch?v=mwLET4B8C2s)
 
 
 ## 1. Drone build
@@ -22,9 +21,17 @@ Motors XNova FS Line 2207 - x4 1700 KV : https://www.studiosport.fr/moteurs-xnov
 
 4 ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html
 
+UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V 
+
+<img src="img/UBEC.jpg" width="200">
+
 Pixhawk 4 mini
 
 <img src="img/Pixhawk4Mini.jpg" width="200">
+
+Radio Controler - Taranis X9D plus
+
+<img src="img/TaranisX9DPlus.jpg" width="200">
 
 Intel realsense T265 & D435
 
@@ -46,4 +53,47 @@ NVIDIA Jetson nano
     - STL : [ref](img/Prop-guard-v3.stl)
 
 ### 1.2 Assembly
+#### 1.2.1 Motors and ESC
+Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counteclockrwise).  
 
+#### 1.2.2 Powerboard
+Mount powerboard delivered with Pixhawk 4 mini. Solder the wires  
+Connect powerboard to Pixhawk with connectors provided with Pixhawk
+
+
+#### 1.2.3 RC receptor
+Connect Frsky XM+ to Pixhawk (use connector privides with Pixhawk and sold with Frsky XM+)
+
+#### 1.2.4 QGround Control settings
+Connect your computer to Pixhawk (via micro usb)  
+Download, install then open QGround Control on your computer  
+You should have now QGC connected to your Pixhawk  
+##### Vehicule setup
+Airframe : select 3DR DIY QUad  
+
+Sensor setup : follow instructions  
+
+Radio setup : after having connected your RC (see below), check channel 1 to 12 are active 
+and that Roll, Pitch, Yaw and Throttle are correct    
+
+Flight mode : <img src="img/QGC-flightModes.png" width="400">  
+
+Power : <img src="img/QGC-Power.png" width="400">  
+
+Safety : <img src="img/QGC-Safety.png" width="400">  
+
+Parameters :  
+- EKF2 :
+    - EKF2_AID_MASK : 24
+    - EKF2_EVP_NOISE : 0.10 m
+    - EKF2_HGT_MODE : vision
+- GPS : disabled
+- MAVLINK : <img src="img/QGC-MAVLINK.png" width="400">  
+- SERIAL : SER_TEL1_BAUD : 921600 8N1
+- SYSTEM : <img src="img/QGC-System.png" width="400">  
+- Developer : <img src="img/QGC-CB.png" width="400">  
+
+
+#### 1.2.5 Radio Controller settings
+Start and set your taranis so that it connects to your Frsky XM+. Tutorial : https://www.youtube.com/watch?v=ZOBwwNpjNrY  
+Set your 12 first channel (first 4 for attitude control). See at end of Readme.md in brain directory for some details
