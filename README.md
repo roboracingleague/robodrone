@@ -19,14 +19,15 @@ Motors XNova FS Line 2207 - x4 1700 KV : https://www.studiosport.fr/moteurs-xnov
 
 4 Hélices tripales DALprop TJ6045 Rouge : https://www.studiosport.fr/helices-tripales-dalprop-tj6045-a10781.html
 
-4 ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html
+4 ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html  
 
 UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V 
+
+<img src="img/UBEC.jpg" width="200">
 
 4S LIPO :   
 <a href="https://www.studiosport.fr/batterie-tattu-4s-75c-1550-bf-a14954.html"><img src="img/Tattu4SLIPO.jpg" width="200"></a>
 
-<img src="img/UBEC.jpg" width="200">
 
 Pixhawk 4 mini
 
