@@ -11,15 +11,17 @@
 
 
 ### 1.1 Parts
-Frame : [![Frame](img/frame.jpeg)](https://www.banggood.com/Realacc-Martian-IV-7-Inch-300mm-Wheelbase-4mm-Arm-Carbon-Fiber-FPV-Racing-Frame-Kit-p-1295851.html?utm_design=41&utm_source=emarsys&utm_medium=Shipoutinform171129&utm_campaign=trigger-emarsys&utm_content=Winna&sc_src=email_2671705&sc_eh=bf6baad03d43ea941&sc_llid=12803824&sc_lid=104858042&sc_uid=yXaVq8Yd1p&cur_warehouse=CN)
+Frame : Realacc Martian IV 7 Inch 300mm Wheelbase 4mm Arm Carbon Fiber FPV Racing Frame Kit
+  
+  [![Frame](img/frame.jpeg)](https://www.banggood.com/Realacc-Martian-IV-7-Inch-300mm-Wheelbase-4mm-Arm-Carbon-Fiber-FPV-Racing-Frame-Kit-p-1295851.html?utm_design=41&utm_source=emarsys&utm_medium=Shipoutinform171129&utm_campaign=trigger-emarsys&utm_content=Winna&sc_src=email_2671705&sc_eh=bf6baad03d43ea941&sc_llid=12803824&sc_lid=104858042&sc_uid=yXaVq8Yd1p&cur_warehouse=CN)
 
-Récepteur Frsky XM+ (SBUS) EU LBT : https://www.studiosport.fr/recepteur-frsky-xm-sbus-a13865.html
+Frsky XM+ (SBUS) EU LBT receiver : https://www.studiosport.fr/recepteur-frsky-xm-sbus-a13865.html
 
-Motors XNova FS Line 2207 - x4 1700 KV : https://www.studiosport.fr/moteurs-xnova-fs-line-2207-par-4-a17208.html
+4 x Motors XNova FS Line 2207 - 1700 KV : https://www.studiosport.fr/moteurs-xnova-fs-line-2207-par-4-a17208.html
 
-4 Hélices tripales DALprop TJ6045 Rouge : https://www.studiosport.fr/helices-tripales-dalprop-tj6045-a10781.html
+4 x three-bladed propelers DALprop TJ6045 Red : https://www.studiosport.fr/helices-tripales-dalprop-tj6045-a10781.html
 
-4 ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html  
+4 x ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html  
 
 UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V 
 
@@ -33,6 +35,7 @@ Pixhawk 4 mini
 
 <img src="img/Pixhawk4Mini.jpg" width="200">
 
+
 Radio Controler - Taranis X9D plus
 
 <img src="img/TaranisX9DPlus.jpg" width="200">
@@ -40,6 +43,11 @@ Radio Controler - Taranis X9D plus
 Intel realsense T265 & D435
 
 <img src="img/T265-D435.jpeg" width="200">
+
+and their cables at the right size : 
+- https://www.amazon.fr/gp/product/B074V3GD2S/ref=ppx_yo_dt_b_asin_title_o03_s00?ie=UTF8&psc=1
+- https://www.amazon.fr/gp/product/B078XS7BLH/ref=ppx_yo_dt_b_asin_title_o03_s01?ie=UTF8&psc=1
+
 
 NVIDIA Jetson nano
 
@@ -68,7 +76,7 @@ Connect powerboard to Pixhawk with connectors provided with Pixhawk
 
 
 #### 1.2.3 RC receptor
-Connect Frsky XM+ to Pixhawk (use connector privided with Pixhawk and solder to Frsky XM+)
+Connect Frsky XM+ to Pixhawk (use connector provided with Pixhawk and solder to Frsky XM+)
 
 #### 1.2.4 QGround Control settings
 Connect your computer to Pixhawk (via micro usb)  
@@ -136,7 +144,7 @@ Screw the Support_frame on your quad only after the UBEC is soldered (se below)
 
 
 #### 1.3.2 UBEC 
-Solder your UBEC input voltage wires to Battery Pins of the Powerboard
+Solder your UBEC input voltage wires to Battery Pins of the Powerboard.  
 Be careful to pass the wires though the middle of the frame
 
 #### 1.3.3 Mount the 3Dprint Jetson_box
@@ -148,3 +156,6 @@ Add Support silentbloc M3 2x4 and fix the Support_frame with Jetson_box with M3 
 
 #### 1.3.5 Connect PixHawk to Jetson
 Connect TELEM1 port of Pixhawk to GND/RX/TX pins of the Jetson (pins 8, 10 and 12)
+
+#### 1.3.6 Add your t265
+Insert your T265 realsense camera to the Camera_support and connect it to one of the Jetson USB port
