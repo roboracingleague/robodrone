@@ -4,6 +4,19 @@
 
 [![Alt text](https://img.youtube.com/vi/mwLET4B8C2s/0.jpg)](https://www.youtube.com/watch?v=mwLET4B8C2s)
 
+<br>
+
+## Summary
+The objective of this project is to build an autonomous drone able to follow a path, detect and pass thru gates and complete course.  
+Corresponding challenge : https://www.roboracingleague.com/   
+Meetup : https://www.meetup.com/fr-FR/DIY-Robocars-France/  
+Youtube channel : https://www.youtube.com/channel/UC7dakUQw-4Dd-6M4JbVFB6w  
+Slack team : https://join.slack.com/t/diyrobocars-france/shared_invite/enQtODU2MDcwNDA0MTI5LTgyYzMzYjlkY2E1YThmMjg4MTk4MjlkMGY3NmExZjA1ZmM2NGQ3ODk3ODNhNmIxNTU5OWM1ZjVjZGY0YmEzODk
+
+
+This github repo is divided into 2 parts :
+- Drone build  : how to mount the drone, see below  
+- Brain setup : the software part including the Jetson Nano setup. See in brain directory  
 
 ## 1. Drone build
 
@@ -187,3 +200,5 @@ Insert your T265 realsense camera to the Camera_support and connect it to one of
 <img src="img/MEAOODRONE-head-pixhawk.jpg" width="400">
 <img src="img/MEAOODRONE-right-zoom.jpg" width="400">
 <img src="img/MEAOODRONE-back-zoom.jpg" width="400">
+
+## 
