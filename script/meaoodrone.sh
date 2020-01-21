@@ -22,13 +22,13 @@ t265_stop () {
 }
 
 brain_start () {
-        echo "starting t265 ros node..."
+        echo "starting brain ros node..."
         stdbuf -oL rosrun setpoint_leader offb_fsm_raw_node >>$LOG_DIR/setpoint_leader.log 2>&1 &
 }
 
 brain_stop () {
         echo "stopping brain..."
-        PID=$(ps -ef | grep "rosrun setpoint_leader offb_fsm_raw_node" | grep -v grep | awk '{print $2}')
+        PID=$(ps -ef | grep "offb_fsm_raw_node" | grep -v grep | awk '{print $2}')
         [[ "$PID" != "" ]] && kill $PID
 }
 
