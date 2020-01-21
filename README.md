@@ -67,6 +67,9 @@ NVIDIA Jetson nano
 
 <img src="img/nvidia-jetson-nano-developer-kit.jpg" width="200">
 
+with 2 x molex antena for wifi : https://www.mouser.fr/ProductDetail/molex/204281-1100/?qs=W0yvOO0ixfHAJETEkFF0dw==&countrycode=DE&currencycode=EUR
+
+
 3D prints :
 - core : <a href="https://cad.onshape.com/documents/5fb94a0090064b109f5c1da5/w/166a6356586f56ed56a74d44/e/b74b3d18538f732dc1240d64"><img src="img/3DPrintCore.png" width="300"></a>
     - STL : [ref](img/Meaoodrone-core.zip)
