@@ -1,13 +1,12 @@
 # Robodrone
 
-## Demo
+<img src="img/MEAOODRONE-head.jpg" width="400">
 
 [![Alt text](https://img.youtube.com/vi/mwLET4B8C2s/0.jpg)](https://www.youtube.com/watch?v=mwLET4B8C2s)
 
 
 ## 1. Drone build
 
-<img src="img/Meaoodrone.jpg" width="400">
 
 
 ### 1.1 Parts
@@ -39,6 +38,8 @@ Pixhawk 4 mini
 Radio Controler - Taranis X9D plus
 
 <img src="img/TaranisX9DPlus.jpg" width="200">
+
+But other cheaper alternatives are ok. Adapt your RC receiver according to your radio
 
 Intel realsense T265 & D435
 
@@ -137,15 +138,30 @@ If it's ok, you can move on to the next step : go to Assembly autonomous parts.
 inject with your soldering iron the 4x <img src="img/3Dprint-EmbeddedNut-M3.png" width="50"> in the hole of 3Dprint Camera_support  
 Add Support silentbloc M3 2x4 and fix the Support_frame with Camera_support with M3 screws  
 
+If you want to mount D435 camera : 
+- use screw <img src="img/D435-screw.png" width="200"> and put through 3D print 435_screw_support <img src="img/3DPrint-435_screw_support.png" width="100">
+- put it through the 3D Print camera_support  
+ Be aware that you won't be able to mount this after having screwed the Support_frame on the quad
+
+
 Then Mount the 3D print Support_frame and Camera_support on the quad frame.  
+
 Be careful to pass the UBEC and XT60 wires throuh the middle of the frame  
+<img src="img/UBEC-XT60.jpg" width="200"> 
+
 Be careful also to put the battery strap on the Support_frame  
+<img src="img/Strap.jpg" width="200"> 
+
 Screw the Support_frame on your quad only after the UBEC is soldered (se below)  
 
 
 #### 1.3.2 UBEC 
 Solder your UBEC input voltage wires to Battery Pins of the Powerboard.  
 Be careful to pass the wires though the middle of the frame
+
+<img src="img/UBEC-XT60.jpg" width="200"> 
+
+Screw (3M) the Support_frame on your quad  
 
 #### 1.3.3 Mount the 3Dprint Jetson_box
 
@@ -159,3 +175,15 @@ Connect TELEM1 port of Pixhawk to GND/RX/TX pins of the Jetson (pins 8, 10 and 1
 
 #### 1.3.6 Add your t265
 Insert your T265 realsense camera to the Camera_support and connect it to one of the Jetson USB port
+
+
+### 1.4 Others various Drone photos
+<img src="img/MEAOODRONE-head.jpg" width="400">
+<img src="img/MEAOODRONE-top.jpg" width="400">
+<img src="img/MEAOODRONE-right.jpg" width="400">
+<img src="img/MEAOODRONE-back.jpg" width="400">
+<img src="img/MEAOODRONE-left.jpg" width="400">
+<img src="img/MEAOODRONE-Jetson-RXTX.jpg" width="400">
+<img src="img/MEAOODRONE-head-pixhawk.jpg" width="400">
+<img src="img/MEAOODRONE-right-zoom.jpg" width="400">
+<img src="img/MEAOODRONE-back-zoom.jpg" width="400">
