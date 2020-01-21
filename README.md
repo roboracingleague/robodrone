@@ -56,7 +56,7 @@ NVIDIA Jetson nano
 - prop guard x4 : <a href="https://cad.onshape.com/documents/9915b87495d749fffdb4cbc8/w/9cc351269674024398f8d8f9/e/28dcfa34e70ac9709d471085"><img src="img/PropGuard.png" width="200"></a>
     - STL : [ref](img/Prop-guard-v3.stl)
 
-### 1.2 Assembly
+### 1.2 Assembly classic parts
 #### 1.2.1 Motors and ESC
 Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counterclockwise).  
 
@@ -115,7 +115,36 @@ Arm your drone (from taranis) and check that motors spin in the right way :
 You can then test your drone with propelers but outdoor in safety environnement (with no obstacle 10m around and above) and in stabilized mode. Objective is to check that drone can takeoff (no more than 50cm !), yaw, pitch and roll.   
 Be ready anytime to disarm if something goes wrong !  
 
-If it's ok, you can move on to the next step : go to autonomous drone build.
+If it's ok, you can move on to the next step : go to Assembly autonomous parts.
 
-#### 1.2.7 Autonoumous drone build
-TODO
+</br>
+
+### 1.3 Assembly Autonoumous parts
+
+#### 1.3.1 Mount the 3D print Support_frame with 3D print Camera_support
+
+
+<img src="img/3Dprint-SupportFrame-Camera.png" width="400">  
+
+inject with your soldering iron the 4x <img src="img/3Dprint-EmbeddedNut-M3.png" width="50"> in the hole of 3Dprint Camera_support  
+Add Support silentbloc M3 2x4 and fix the Support_frame with Camera_support with M3 screws  
+
+Then Mount the 3D print Support_frame and Camera_support on the quad frame.  
+Be careful to pass the UBEC and XT60 wires throuh the middle of the frame  
+Be careful also to put the battery strap on the Support_frame  
+Screw the Support_frame on your quad only after the UBEC is soldered (se below)  
+
+
+#### 1.3.2 UBEC 
+Solder your UBEC input voltage wires to Battery Pins of the Powerboard
+Be careful to pass the wires though the middle of the frame
+
+#### 1.3.3 Mount the 3Dprint Jetson_box
+
+inject with your soldering iron the 4x <img src="img/3Dprint-EmbeddedNut-M3.png" width="50"> in the hole of 3Dprint Support_frame
+Add Support silentbloc M3 2x4 and fix the Support_frame with Jetson_box with M3 screws  
+
+#### 1.3.4 Put your Jetson in the Jetson_box
+
+#### 1.3.5 Connect PixHawk to Jetson
+Connect TELEM1 port of Pixhawk to GND/RX/TX pins of the Jetson (pins 8, 10 and 12)
