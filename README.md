@@ -10,74 +10,94 @@
 The objective of this project is to build an autonomous drone able to follow a path, detect and pass thru gates and complete course.  
 Corresponding challenge : https://www.roboracingleague.com/   
 Meetup : https://www.meetup.com/fr-FR/DIY-Robocars-France/  
-Youtube channel : https://www.youtube.com/channel/UC7dakUQw-4Dd-6M4JbVFB6w  
-Slack team : https://join.slack.com/t/diyrobocars-france/shared_invite/enQtODU2MDcwNDA0MTI5LTgyYzMzYjlkY2E1YThmMjg4MTk4MjlkMGY3NmExZjA1ZmM2NGQ3ODk3ODNhNmIxNTU5OWM1ZjVjZGY0YmEzODk
+Youtube channel : <a href="https://www.youtube.com/channel/UC7dakUQw-4Dd-6M4JbVFB6w">Link</a>  
+Slack team : <a href="https://join.slack.com/t/diyrobocars-france/shared_invite/enQtODU2MDcwNDA0MTI5LTgyYzMzYjlkY2E1YThmMjg4MTk4MjlkMGY3NmExZjA1ZmM2NGQ3ODk3ODNhNmIxNTU5OWM1ZjVjZGY0YmEzODk">Link</a>
 
 
 This github repo is divided into 2 parts :
 - Drone build  : how to mount the drone, see below  
 - Brain setup : the software part including the Jetson Nano setup. See in brain directory  
+<br>
+<br>
 
 ## 1. Drone build
 
 
 
 ### 1.1 Parts
-Frame : Realacc Martian IV 7 Inch 300mm Wheelbase 4mm Arm Carbon Fiber FPV Racing Frame Kit
+<b>Frame : Realacc Martian IV 7 Inch 300mm Wheelbase 4mm Arm Carbon Fiber FPV Racing Frame Kit</b>
   
   [![Frame](img/frame.jpeg)](https://www.banggood.com/Realacc-Martian-IV-7-Inch-300mm-Wheelbase-4mm-Arm-Carbon-Fiber-FPV-Racing-Frame-Kit-p-1295851.html?utm_design=41&utm_source=emarsys&utm_medium=Shipoutinform171129&utm_campaign=trigger-emarsys&utm_content=Winna&sc_src=email_2671705&sc_eh=bf6baad03d43ea941&sc_llid=12803824&sc_lid=104858042&sc_uid=yXaVq8Yd1p&cur_warehouse=CN)
 
-Frsky XM+ (SBUS) EU LBT receiver : https://www.studiosport.fr/recepteur-frsky-xm-sbus-a13865.html
+<br>
 
-4 x Motors XNova FS Line 2207 - 1700 KV : https://www.studiosport.fr/moteurs-xnova-fs-line-2207-par-4-a17208.html
+<b>Frsky XM+ (SBUS) EU LBT receiver</b> : <a href="https://www.studiosport.fr/recepteur-frsky-xm-sbus-a13865.html">Link</a>
 
-4 x three-bladed propelers DALprop TJ6045 Red : https://www.studiosport.fr/helices-tripales-dalprop-tj6045-a10781.html
+<br>
 
-4 x ESC AIKON AK 32 35A 6S BLHeli32 : https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html  
+<b>4 x Motors XNova FS Line 2207 - 1700 KV</b> : <a href="https://www.studiosport.fr/moteurs-xnova-fs-line-2207-par-4-a17208.html">Link</a>  
+<br>
+<b>4 x three-bladed propelers DALprop TJ6045 Red</b> : <a href="https://www.studiosport.fr/helices-tripales-dalprop-tj6045-a10781.html">Link</a>  
+<br>
+<b>4 x ESC AIKON AK 32 35A 6S BLHeli32</b> : <a href="https://www.studiosport.fr/esc-aikon-ak-32-35a-6s-blheli32-a13754.html">Link</a>  
+<br>
+<b>UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V </b>  
+<img src="img/UBEC.jpg" width="200">  
 
-UBEC : Matek Systems UBEC DUO 4A/5~12V et 4A/5V 
+<br>
+<br>
+<b>4S LIPO</b> :   
 
-<img src="img/UBEC.jpg" width="200">
-
-4S LIPO :   
 <a href="https://www.studiosport.fr/batterie-tattu-4s-75c-1550-bf-a14954.html"><img src="img/Tattu4SLIPO.jpg" width="200"></a>
 
+<br>
 
-Pixhawk 4 mini
-
+<b>Pixhawk 4 mini</b>  
 <img src="img/Pixhawk4Mini.jpg" width="200">
 
+<br>
+<br>
 
-Radio Controler - Taranis X9D plus
-
+<b>Radio Controler - Taranis X9D plus</b>  
 <img src="img/TaranisX9DPlus.jpg" width="200">
 
-But other cheaper alternatives are ok. Adapt your RC receiver according to your radio
+But other RC cheaper alternatives are ok. Adapt your RC receiver according to your radio
 
-Intel realsense T265 & D435
-
+<br>
+<b>Intel realsense T265 & D435</b>  
+<br>
 <img src="img/T265-D435.jpeg" width="200">
 
 and their cables at the right size : 
-- https://www.amazon.fr/gp/product/B074V3GD2S/ref=ppx_yo_dt_b_asin_title_o03_s00?ie=UTF8&psc=1
-- https://www.amazon.fr/gp/product/B078XS7BLH/ref=ppx_yo_dt_b_asin_title_o03_s01?ie=UTF8&psc=1
+- <a href="https://www.amazon.fr/gp/product/B074V3GD2S/ref=ppx_yo_dt_b_asin_title_o03_s00?ie=UTF8&psc=1">Link</a>
+- <a href="https://www.amazon.fr/gp/product/B078XS7BLH/ref=ppx_yo_dt_b_asin_title_o03_s01?ie=UTF8&psc=1">Link</a>
 
 
-NVIDIA Jetson nano
-
+<br>
+<b>NVIDIA Jetson nano</b>  
+<br>
 <img src="img/nvidia-jetson-nano-developer-kit.jpg" width="200">
 
-with 2 x molex antena for wifi : https://www.mouser.fr/ProductDetail/molex/204281-1100/?qs=W0yvOO0ixfHAJETEkFF0dw==&countrycode=DE&currencycode=EUR
+Wifi card : <a href="https://www.amazon.fr/Coolwell-Waveshare-Wireless-Bluetooth-Connector/dp/B07VRKKLCM/ref=sr_1_1_sspa?adgrpid=68784494837&gclid=Cj0KCQiApaXxBRDNARIsAGFdaB_16HoOJbIfPt6EMQZydgNM79Muy14XmRAXlzGFa5Wgb1ycQlaB9uEaAkchEALw_wcB&hvadid=342345071428&hvdev=c&hvlocphy=9056245&hvnetw=g&hvpos=1t1&hvqmt=e&hvrand=7547937530900791981&hvtargid=kwd-788762341655&hydadcr=7970_1754970&keywords=jetson+nano+wifi&qid=1579783773&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExSk5SUDA1T1dMQjZVJmVuY3J5cHRlZElkPUEwNTc4MjAxM0lRUDBUQU1HNDFKOCZlbmNyeXB0ZWRBZElkPUEwMDQ0MDM4M0g5NjNSUkZOT1hBOCZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=">Link</a>
+
+better with these 2 x molex antena for wifi : <a href="https://www.mouser.fr/ProductDetail/molex/204281-1100/?qs=W0yvOO0ixfHAJETEkFF0dw==&countrycode=DE&currencycode=EUR">Link</a>
+
+Jetson alimentation : <a href="https://www.cdiscount.com/informatique/cables-connectiques/eu-plug-dc-5-5-2-1mm-avec-adaptateur-d-alimentatio/f-1072015-gob0699912974792.html">Link</a>
+
+and to connect the UBEC to the Jetson you will need this kind of connector : <a href="https://www.manomano.fr/adaptateur-et-connecteur-pour-cable-courant-faible-4497?g=1&referer_id=687129&gclid=Cj0KCQiApaXxBRDNARIsAGFdaB_qt3og7H6BETdX6H6wrAyqou4MZxxWeAbGqAycPB3qnYSyTEOnELcaAlIqEALw_wcB&model_id=13761290">Link</a>
 
 
-3D prints :
+<br>
+<br>
+
+<b>3D prints :</b>
 - core : <a href="https://cad.onshape.com/documents/5fb94a0090064b109f5c1da5/w/166a6356586f56ed56a74d44/e/b74b3d18538f732dc1240d64"><img src="img/3DPrintCore.png" width="300"></a>
     - STL : [ref](img/Meaoodrone-core.zip)
     - fixings : 
-        - d435 : https://www.amazon.fr/gp/product/B07CKZNZRB/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1
-        - https://www.amazon.fr/gp/product/B07G1B2BJW/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1
-        - https://www.amazon.fr/gp/product/B07RKTMKGR/ref=ppx_yo_dt_b_asin_title_o05_s00?ie=UTF8&psc=1
-        - Support silentbloc M3 2x4 : https://www.dronelec.com/c/p/4480-support-silent-bloc-pour-carte-de-vol-m3-5x5mm-x4/null/
+        - d435 : <a href="https://www.amazon.fr/gp/product/B07CKZNZRB/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1">Link</a> 
+        - <a href="https://www.amazon.fr/gp/product/B07G1B2BJW/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&psc=1">Link</a>
+        - <a href="https://www.amazon.fr/gp/product/B07RKTMKGR/ref=ppx_yo_dt_b_asin_title_o05_s00?ie=UTF8&psc=1">Link</a>
+        - Support silentbloc M3 2x4 : <a href="https://www.dronelec.com/c/p/4480-support-silent-bloc-pour-carte-de-vol-m3-5x5mm-x4/null/">Link</a>
 - prop guard x4 : <a href="https://cad.onshape.com/documents/9915b87495d749fffdb4cbc8/w/9cc351269674024398f8d8f9/e/28dcfa34e70ac9709d471085"><img src="img/PropGuard.png" width="200"></a>
     - STL : [ref](img/Prop-guard-v3.stl)
 
@@ -181,7 +201,7 @@ Screw (3M) the Support_frame on your quad
 
 #### 1.3.3 Mount the 3Dprint Jetson_box
 
-inject with your soldering iron the 4x <img src="img/3Dprint-EmbeddedNut-M3.png" width="50"> in the hole of 3Dprint Support_frame
+inject with your soldering iron the 4x <img src="img/3Dprint-EmbeddedNut-M3.png" width="50"> in the hole of 3Dprint Support_frame  
 Add Support silentbloc M3 2x4 and fix the Support_frame with Jetson_box with M3 screws  
 
 #### 1.3.4 Put your Jetson in the Jetson_box

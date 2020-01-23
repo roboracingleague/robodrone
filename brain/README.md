@@ -335,12 +335,13 @@ or from a file :
 ./script/mission.sh filename
 ```
 
-## 14.2 Mission recording
+## 14.2 Mission recording and executing
 To record a mission from the drone, you need to configure your RC (associate channels to buttons) as following :
 - channel 10 : for mode switching between onRecordMission mode and onWaitMission mode 
   - Without this channel active, default mode is onWaitMission
-  - switching to onRecordMission activates channel 11 listening and start a new mission recording. When you switch back to onWaitMission mode, the mission recorded is saved in a file named <span style="color:red">**mission-recorded_*timestamp*.mission**</span> in the directory where you launch the brain
+  - switching to onRecordMission activates channel 11 listening and start a new mission recording. When you switch back to onWaitMission mode, the mission recorded is saved in a path file name indicated by the ros param <span style="color:red">**mission_recorded_filename**</span> (by default $HOME/robodrone/mission_recorded/mission-recorded.mission)
 - channel 11 : to record a position, switch this channel
+- after recordng a mission, to execute it, switch channel 10 to "execute last mission recorded" position
 
 ## 14.3 Brain State diagram
 ![State Diag](doc/statdiag.png)
