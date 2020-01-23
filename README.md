@@ -101,6 +101,8 @@ and to connect the UBEC to the Jetson you will need this kind of connector : <a 
 - prop guard x4 : <a href="https://cad.onshape.com/documents/9915b87495d749fffdb4cbc8/w/9cc351269674024398f8d8f9/e/28dcfa34e70ac9709d471085"><img src="img/PropGuard.png" width="200"></a>
     - STL : [ref](img/Prop-guard-v3.stl)
 
+</br>
+
 ### 1.2 Assembly classic parts
 #### 1.2.1 Motors and ESC
 Mount motors and ESC on each arm and solder the wires. Beware to invert wiring of motor 1 and 2 (they spin counterclockwise).  
@@ -162,6 +164,7 @@ Be ready anytime to disarm if something goes wrong !
 
 If it's ok, you can move on to the next step : go to Assembly autonomous parts.
 
+
 </br>
 
 ### 1.3 Assembly Autonoumous parts
@@ -212,6 +215,7 @@ Connect TELEM1 port of Pixhawk to GND/RX/TX pins of the Jetson (pins 8, 10 and 1
 #### 1.3.6 Add your t265
 Insert your T265 realsense camera to the Camera_support and connect it to one of the Jetson USB port
 
+</br>
 
 ### 1.4 Others various Drone photos
 <img src="img/MEAOODRONE-head.jpg" width="400">
