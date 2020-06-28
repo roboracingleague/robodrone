@@ -543,6 +543,11 @@ class onGoing : public onMission {
             transit<onLand>();
          };
 
+        virtual void react(TargetDetectedEvent              const & e) override{
+
+            transit<onApproachingTarget>();
+        }
+
         void react(TickEvent const & e) override { 
             onMission::react(e);
             if (mri->processWaypoint(destX, destY, destZ)) {
@@ -566,6 +571,96 @@ class onGoing : public onMission {
             }
         };
 };
+
+class onApproachingTarget : public onMission {
+    public:
+        onApproachingTarget() : onMission("onApproachingTarget") {};
+        struct GateBox {
+            double top_left_pixel_x, 
+                   top_left_pixel_y, 
+                   bottom_right_pixel_x,
+                   bottom_right_pixel_y,
+                   yaw;
+        };
+    private:
+
+        void entry(void) override {
+            onMission::entry();
+            // mri->sendMissionOrder(MASK_POSITION,destX, destY, destZ);
+        };
+
+        void react(DisconnectedEvent const & e) override { 
+            onMission::react(e);
+            transit<onWaitConnect>();
+        };
+
+        virtual void react(EnteringOffboardEvent          const & e) override { 
+            // Just ignore
+        };
+        virtual void react(LeavingOffboardEvent           const & e) override { 
+            onMission::react(e);
+            transit<onWaitMission>();
+        };
+        virtual void react(ArmedEvent                     const & e) override { 
+            // Just ignore
+         };
+        virtual void react(DisarmedEvent                  const & e) override { 
+            onMission::react(e);
+            transit<onWaitMission>();
+         };
+        virtual void react(NewMissionEvent                const & e) override { 
+            onMission::react(e);
+         };
+
+        virtual void react (LocalPositionAcquiredEvent    const & e) override {
+
+        };
+
+        virtual void react(Pause1MissionEvent                const & e) override { 
+            //drone must loiter on its current position
+            pauseActive = true;
+            transit<onLoiter>();
+         };
+        
+        virtual void react(Pause2MissionEvent                const & e) override { 
+            //drone must land and disarm on its current position
+            pauseActive = true;
+            transit<onLand>();
+         };
+
+        virtual void react(TargetDetectedEvent              const & e) override{
+            // update gate gate position and orientation 
+            TargetDetectedEvent targetDetectedEvent = * e;
+            GateBox.top_left_pixel_x = targetDetectedEvent.target_detected_msg.
+            // transit<onApproachingTarget>();
+        }
+
+        void react(TickEvent const & e) override { 
+            onMission::react(e);
+            // Approach the gate and get into a location enabling going thru in a forward leap
+            //
+            if (mri->processWaypoint(destX, destY, destZ)) {
+                // Waypoint on going 
+                mri->sendMissionOrderVelocity(MASK_POSITION,destX, destY, destZ);
+            } else {
+                float prev_destMode = destMode;
+                // We have not reached our next stop, let's pop the next WayPoint and send it right now ot autopilot
+                if (mri->getNextWaypoint(destX, destY, destZ, destMode)) {
+                    // New waypoint
+                    if (prev_destMode == 1.0) {
+                        transit<onFreestyle>();
+                    } else {
+                        mri->sendMissionOrderVelocity(MASK_POSITION,destX, destY, destZ);
+                    }
+                } else {
+                    // End of mission  
+                    ROS_INFO("state %s : no new WayPoint",getStateName());
+                    transit<onLand>();
+                }
+            }
+        };
+};
+
 
 class onFreestyle : public onMission {
     public:
@@ -938,6 +1033,11 @@ void MissionRosInterface::mission_cb(const setpoint_leader::robocars_mission::Co
         waypoints.push_back(current_mission.path[i]);
     }
     send_event(NewMissionEvent());
+}
+
+void  MissionRosInterface::target_detected_cb(const geometry_msgs::PoseStamped::ConstPtr& target_detected_msg){
+    // targetDetectedPos = *target_detected_msg;
+    send_event(TargetDetectedEvent(target_detected_msg)); 
 }
 
 void MissionRosInterface::startOffBoardMode (void) {

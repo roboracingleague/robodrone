@@ -61,6 +61,7 @@ add_message_files(
   robocars_mission.msg
   robocars_debug.msg
   robocars_vehicle_status.msg
+  robodrone_target_detected.msg
 )
 
 ## Generate services in the 'srv' folder

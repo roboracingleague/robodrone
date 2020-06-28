@@ -52,6 +52,14 @@ struct LocalPositionAcquiredEvent   : BaseEvent { public:
     LocalPositionAcquiredEvent(const geometry_msgs::PoseStamped::ConstPtr& pose_msg) : pose_msg(*pose_msg), BaseEvent("LocalPositionAcquiredEvent") {};
     geometry_msgs::PoseStamped pose_msg; 
     };
+struct TargetDetectedEvent    : BaseEvent { public: 
+    // TargetDetectedEvent(const geometry_msgs::PoseStamped::ConstPtr& target_detected_msg) : target_detected_msg(*target_detected_msg), BaseEvent("TargetDetectedEvent") {}; 
+    // geometry_msgs::PoseStamped target_detected_msg;
+    TargetDetectedEvent(const geometry_msgs::PoseStamped::ConstPtr& target_detected_msg) : target_detected_msg(*target_detected_msg), BaseEvent("TargetDetectedEvent") {}; 
+    robodrone target_detected_msg;
+    };
+
+
 
 class MissionStateMachine
 : public tinyfsm::Fsm<MissionStateMachine>
@@ -67,6 +75,7 @@ class MissionStateMachine
         static float destY;
         static float destZ;
         static float destMode;
+        static float destYaw;
 
     public:
         /* default reaction for unhandled events */
@@ -94,6 +103,7 @@ class MissionStateMachine
         virtual void react(MaintenanceEnterAutoEvent      const & e) { logEvent(e); };
         virtual void react(MaintenanceEnterManualEvent    const & e) { logEvent(e); };
         virtual void react(LocalPositionAcquiredEvent     const & e) { };
+        virtual void react(TargetDetectedEvent            const & e) { };
 
         virtual void entry(void) { 
             ROS_INFO("State %s: entering", getStateName()); 
@@ -143,6 +153,7 @@ class MissionRosInterface
             vfr_hud_sub = nh.subscribe<mavros_msgs::VFR_HUD>("/mavros/vfr_hud", 1, &MissionRosInterface::vfr_hud_cb, this);
             //mission_sub = nh.subscribe<mavros_msgs::WaypointList>("robocar/mission", 1, &MissionRosInterface::mission_cb, this);
             mission_sub = nh.subscribe<setpoint_leader::robocars_mission>("robocar/mission", 1, &MissionRosInterface::mission_cb, this);
+            target_detected_sub = nh.subscribe<geometry_msgs::PoseStamped>("uav/target/detected", 1, &MissionRosInterface::target_detected_cb, this);
             //ros::Publisher local_pos_pub = nh.advertise<geometry_msgs::PoseStamped>("mavros/setpoint_position/local", 1);
             arming_client = nh.serviceClient<mavros_msgs::CommandBool>("mavros/cmd/arming");
             set_mode_client = nh.serviceClient<mavros_msgs::SetMode>("mavros/set_mode");
@@ -239,6 +250,8 @@ class MissionRosInterface
         void mission_cb(const setpoint_leader::robocars_mission::ConstPtr& mission_msg);
         void velocity_cb(const geometry_msgs::TwistStamped::ConstPtr& velocity_msg);
         void vfr_hud_cb (const mavros_msgs::VFR_HUD::ConstPtr& vfr_hud_msg);
+        void target_detected_cb(const geometry_msgs::PoseStamped::ConstPtr& target_detected_msg);
+
         void startOffBoardMode (void);
         void stopOffBoardMode(string mode="MANUAL");
         void startManualMode (void);
@@ -325,6 +338,8 @@ class MissionRosInterface
 
         geometry_msgs::PoseStamped departurePos;
         geometry_msgs::PoseStamped arrivalPos;
+
+        geometry_msgs::PoseStamped targetDetectedPos;
 
         int pos_seq;
 
